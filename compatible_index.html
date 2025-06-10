@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>耳机左右耳测试(兼容版)</title>
+    <style>
+        :root {
+            --bg-color: #f5f5f5;
+            --text-color: #333;
+            --left-btn-color: #4CAF50;
+            --right-btn-color: #2196F3;
+            --border-color: #ddd;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #ffffff;
+                --left-btn-color: #2e7d32;
+                --right-btn-color: #1565c0;
+                --border-color: #333;
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+            flex-grow: 1;
+        }
+
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            margin-bottom: 2rem;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            padding: clamp(10px, 3vw, 15px) clamp(20px, 5vw, 30px);
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 150px;
+        }
+
+        #leftBtn {
+            background-color: var(--left-btn-color);
+            color: white;
+        }
+
+        #rightBtn {
+            background-color: var(--right-btn-color);
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .help-section {
+            width: 90%;
+            max-width: 600px;
+            margin: 2rem auto;
+            border-radius: 8px;
+        }
+
+        .help-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: 100%;
+            text-align: left;
+            padding: 1rem;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-radius 0.3s;
+        }
+
+        .help-toggle:hover {
+            background-color: rgba(128, 128, 128, 0.1);
+        }
+
+        .help-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            background-color: var(--bg-color);
+        }
+
+        .help-content.show {
+            max-height: 500px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .help-content-inner {
+            padding: 1rem;
+        }
+
+        .help-toggle.expanded {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .copyright a {
+            color: #007bff; /* Blue color for links */
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            button {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>耳机左右耳测试(兼容版)</h1>
+        <p>点击下方按钮测试您的耳机左右声道</p>
+        <div class="buttons">
+            <button id="leftBtn" onclick="playLeft()">左声道测试</button>
+            <button id="rightBtn" onclick="playRight()">右声道测试</button>
+        </div>
+    </div>
+
+    <div class="help-section">
+        <button class="help-toggle">
+            <span>如何使用本工具判断耳机是否戴反？</span>
+            <span class="toggle-icon">▼</span>
+        </button>
+        <div class="help-content">
+            <div class="help-content-inner">
+                <p>本工具通过发出单声道的声音来帮助您判断耳机是否戴反。使用方法如下：</p>
+                <ol>
+                    <li>戴上您的耳机</li>
+                    <li>点击"左声道测试"按钮，此时您应该只在左耳听到声音</li>
+                    <li>点击"右声道测试"按钮，此时您应该只在右耳听到声音</li>
+                </ol>
+                <p>如果您发现：</p>
+                <ul>
+                    <li>点击左声道测试时声音从右耳传出</li>
+                    <li>点击右声道测试时声音从左耳传出</li>
+                </ul>
+                <p>说明您的耳机戴反了，需要调换方向重新佩戴。</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="copyright">
+        ©2025 LTO with Trae.ai <a href="index.html">使用标准版</a>
+    </footer>
+
+    <script>
+        function playLeft() {
+            const audio = new Audio('left.mp3');
+            audio.play().catch(e => console.error('播放失败:', e));
+        }
+
+        function playRight() {
+            const audio = new Audio('right.mp3');
+            audio.play().catch(e => console.error('播放失败:', e));
+        }
+
+        // 帮助部分切换功能
+        document.querySelector('.help-toggle').addEventListener('click', function() {
+            this.classList.toggle('expanded');
+            const content = this.nextElementSibling;
+            content.classList.toggle('show');
+        });
+    </script>
+</body>
+</html>
